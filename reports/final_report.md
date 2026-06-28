@@ -115,6 +115,34 @@ Usuarios que abrem a newsletter antes do jogo tem D+1 de 40.8% contra 31.8% de q
 
 **Interpretacao:** a newsletter e um sinal forte de engajamento com o ecossistema the news. A integracao newsletter -> jogo funciona como alavanca de retencao.
 
+### 4.5.1 Funil de engajamento
+
+Olhando os dados como funil (acoes dentro da mesma sessao), temos:
+
+| Etapa | Sessoes | % da etapa anterior | % do total |
+|---|---|---|---|
+| Sessao iniciada | 39.849 | 100% | 100% |
+| Abriu newsletter antes | 7.651 | 19% | 19% |
+| Ganhou o jogo | 24.043 | (independente) | 60% |
+| Voltou D+1 | 8.823 | 37% dos que ganharam | 22% |
+
+A maior queda esta entre "sessao iniciada" e "abriu newsletter" — apenas 19% dos jogadores abrem a newsletter antes de jogar. Isso sugere que a newsletter nao e o principal canal de entrada no jogo — talvez o app ou notificacoes sejam.
+
+---
+
+### 4.5.2 Stickiness e uso diario
+
+| Metrica | Valor |
+|---|---|
+| DAU medio (jogadores/dia) | 221 |
+| WAU medio (jogadores/semana) | 1.533 |
+| MAU medio (jogadores/mes) | 6.642 |
+| Stickiness (DAU/MAU) | 3.3% |
+
+Stickiness de 3.3% significa que, em media, apenas 3.3% dos usuarios mensais jogam em um dia qualquer. Para um jogo diario, esse numero e baixo — indica que a maioria dos 6.600 MAU joga com baixa frequencia. O benchmark de referencia para apps de jogo e 10-20%.
+
+**Interpretacao:** o produto tem alcance (MAU razoavel) mas baixa recorrência diaria. Converter usuarios ocasionais em daily active users e a maior alavanca de crescimento.
+
 ---
 
 ### 4.6 Palavras dificeis derrubam retencao?

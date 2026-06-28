@@ -194,3 +194,39 @@ def segmentar_usuarios(user_metrics: pd.DataFrame) -> pd.DataFrame:
     choices = ["heavy", "medium"]
     user_metrics["segmento"] = np.select(conds, choices, default="light")
     return user_metrics
+
+
+def funil_newsletter_jogo(sessions: pd.DataFrame) -> pd.DataFrame:
+    """Funil de engajamento a nivel de sessao: sessao -> abriu newsletter -> ganhou -> voltou D+1."""
+    total = len(sessions)
+    abriu = int(sessions["newsletter_open_before_game"].sum())
+    ganhou = int((sessions["result"] == "win").sum())
+    voltou = int(sessions["played_next_day"].sum())
+
+    etapas = pd.DataFrame({
+        "etapa": ["Sessoes totais", "Abriu newsletter", "Ganhou", "Voltou D+1"],
+        "sessoes": [total, abriu, ganhou, voltou],
+    })
+    etapas["taxa_etapa_anterior"] = etapas["sessoes"] / etapas["sessoes"].shift(1)
+    etapas["taxa_etapa_anterior"] = etapas["taxa_etapa_anterior"].fillna(1.0)
+    return etapas
+
+
+def metrica_stickiness(sessions: pd.DataFrame) -> pd.DataFrame:
+    """Calcula DAU, WAU, MAU e stickiness (DAU/MAU) medio no periodo."""
+    daily = sessions.groupby("word_date")["user_id"].nunique().reset_index()
+    daily.columns = ["data", "dau"]
+
+    daily["semana"] = daily["data"].dt.to_period("W")
+    daily["mes"] = daily["data"].dt.to_period("M")
+
+    wau = daily.groupby("semana")["dau"].sum().mean()
+    mau = daily.groupby("mes")["dau"].sum().mean()
+    dau_medio = daily["dau"].mean()
+
+    stickiness = dau_medio / mau if mau > 0 else 0
+
+    return pd.DataFrame({
+        "metrica": ["DAU medio", "WAU medio (soma)", "MAU medio (soma)", "Stickiness (DAU/MAU)"],
+        "valor": [round(dau_medio), round(wau), round(mau), f"{stickiness:.1%}"],
+    })
