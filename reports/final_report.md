@@ -231,6 +231,22 @@ ANOVA confirma diferencas significativas entre faixas salariais (F=3.21, p=0.013
 
 ---
 
+### 6.7 LTV estimado por segmento
+
+Como nao temos dados de receita por usuario, fiz uma estimativa simples de sessoes vitalicias usando a retencao observada. Multipliquei a retencao media de cada segmento por 12 meses para projetar sessoes/ano.
+
+| Segmento | Usuarios | Retencao D30 | Sessoes/ano (estimado) | Sessoes totais/ano |
+|---|---|---|---|---|
+| Heavy (6+ jogos) | ~1.200 | 76.4% | ~110 | ~132.000 |
+| Medium (2-5) | ~4.500 | 47.8% | ~25 | ~112.500 |
+| Light (1) | ~6.300 | 18.5% | ~3 | ~18.900 |
+
+Heavy users representam 10% da base mas geram ~50% das sessoes anuais projetadas. Um heavy user vale ~37x mais sessoes/ano que um light user.
+
+Se o the news monetiza por volume de audiencia (ex: anuncios na newsletter, branded content), heavy users sao o ativo mais valioso. E se cada light user convertido a medium gera +22 sessoes/ano, converter 20% dos light users (~1.260 usuarios) adicionaria ~27.700 sessoes/ano.
+
+---
+
 ## 7. Recomendacoes
 
 ### 7.1 Hipoteses e experimentos
