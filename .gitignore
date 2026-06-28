@@ -1,9 +1,6 @@
 __pycache__/
 *.pyc
-data/processed/
 .ipynb_checkpoints/
-reports/figures/*.png
-reports/figures/*.pdf
 .venv/
 venv/
 .DS_Store
