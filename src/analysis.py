@@ -245,4 +245,26 @@ def exportar_dataset_looker(sessions: pd.DataFrame, profile: pd.DataFrame) -> pd
         "plays_other_word_games", "typical_play_time", "newsletter_subscriber"
     ]
 
-    return df[colunas].copy()
+    result = df[colunas].copy()
+
+    result["played_next_day_num"] = result["played_next_day"].astype(int)
+    result["active_d30_num"] = result["active_d30"].astype(int)
+    result["newsletter_open_num"] = result["newsletter_open_before_game"].astype(int)
+    result["win_num"] = (result["result"] == "win").astype(int)
+
+    result["faixa_horario"] = result["session_hour"].apply(
+        lambda h: "manha (6-9)" if 6 <= h <= 9
+        else "tarde (10-14)" if 10 <= h <= 14
+        else "fim de tarde (15-19)" if 15 <= h <= 19
+        else "noite (20-23)" if 20 <= h <= 23
+        else "madrugada (0-5)"
+    )
+
+    result["segmento"] = "light"
+    user_counts = result.groupby("user_id")["session_id"].transform("count")
+    result.loc[user_counts >= 6, "segmento"] = "heavy"
+    result.loc[(user_counts >= 2) & (user_counts < 6), "segmento"] = "medium"
+
+    result["e_fim_de_semana"] = result["word_date"].dt.dayofweek.isin([5, 6])
+
+    return result
