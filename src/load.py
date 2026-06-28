@@ -1,28 +1,31 @@
+"""Carregamento e persistencia dos datasets do Palavritas."""
+
 import pandas as pd
 from pathlib import Path
+from typing import Tuple
 
 DATA_DIR = Path(__file__).parent.parent / "data"
 RAW_DIR = DATA_DIR / "raw"
 PROCESSED_DIR = DATA_DIR / "processed"
 
 
-def load_sessions():
+def load_sessions() -> pd.DataFrame:
     return pd.read_csv(RAW_DIR / "palavritas_sessions.csv")
 
 
-def load_attempts():
+def load_attempts() -> pd.DataFrame:
     return pd.read_csv(RAW_DIR / "palavritas_attempts.csv")
 
 
-def load_user_profile():
+def load_user_profile() -> pd.DataFrame:
     return pd.read_csv(RAW_DIR / "user_profile.csv")
 
 
-def load_all():
+def load_all() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     return load_sessions(), load_attempts(), load_user_profile()
 
 
-def save_cleaned(sessions, attempts, profile):
+def save_cleaned(sessions: pd.DataFrame, attempts: pd.DataFrame, profile: pd.DataFrame) -> None:
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
     sessions.to_csv(PROCESSED_DIR / "sessions_clean.csv", index=False)
     attempts.to_csv(PROCESSED_DIR / "attempts_clean.csv", index=False)
