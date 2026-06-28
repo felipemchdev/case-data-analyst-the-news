@@ -1,6 +1,6 @@
 # Case - Analista de Dados Produto & Growth | the news
 
-Analise de retencao do Palavritas, jogo de palavras diario do the news.
+Analise de retenção do Palavritas, jogo de palavras diário do the news.
 
 ## Estrutura
 
@@ -10,25 +10,25 @@ the-news-case/
 ├── requirements.txt
 ├── data/
 │   ├── raw/                  (palavritas_sessions.csv, palavritas_attempts.csv, user_profile.csv)
-│   └── processed/            (dados limpos apos rodar o notebook)
+│   └── processed/            (dados limpos após rodar o notebook)
 ├── notebooks/
-│   └── exploration.ipynb     (notebook principal com todas as analises)
+│   └── exploration.ipynb     (notebook principal com todas as análises)
 ├── src/
 │   ├── __init__.py           (imports centralizados)
 │   ├── load.py               (carregamento dos CSVs)
-│   ├── cleaning.py           (diagnostico e limpeza separados)
-│   ├── analysis.py           (analises: retencao, coorte, curva, features)
-│   ├── statistics.py         (testes estatisticos, IC, Bonferroni)
-│   └── plots.py              (visualizacoes com matplotlib/seaborn)
+│   ├── cleaning.py           (diagnóstico e limpeza separados)
+│   ├── analysis.py           (análises: retenção, corte, curva, features)
+│   ├── statistics.py         (testes estatisticos)
+│   └── plots.py              (visualizações com matplotlib)
 ├── sql/
-│   ├── quality_checks.sql    (validacoes de qualidade dos dados)
-│   ├── retention.sql         (retencao por dimensao + segmentacao)
+│   ├── quality_checks.sql    (validações de qualidade dos dados)
+│   ├── retention.sql         (retenção por dimensão + segmentação)
 │   ├── profile.sql           (perfil dos jogadores)
-│   ├── newsletter.sql        (relacao newsletter x jogo)
+│   ├── newsletter.sql        (relação newsletter x jogo)
 │   └── word_difficulty.sql   (dificuldade por palavra + agrupamento)
 ├── reports/
 │   ├── figures/              (9 graficos PNG)
-│   └── final_report.md       (relatorio executivo com hipoteses e experimentos)
+│   └── final_report.md       (relatório executivo com hipóteses e experimentos)
 ```
 
 ## Setup
@@ -40,4 +40,4 @@ jupyter notebook notebooks/exploration.ipynb
 
 ## Autor
 
-Felipe - Case para Analista de Dados Produto & Growth @ the news
+Felipe - Case para Analista de Dados Produto & Growth @the news
