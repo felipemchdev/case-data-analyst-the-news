@@ -6,7 +6,7 @@ from src.analysis import (
     juntar_sessions_profile, retencao_por_perfil, padrao_tentativas,
     matriz_correlacao, tabela_features, analise_coorte, curva_retencao,
     retencao_por_usuario, segmentar_usuarios, funil_newsletter_jogo,
-    metrica_stickiness, exportar_dataset_looker
+    metrica_stickiness, exportar_dataset_looker, exportar_sumario_looker
 )
 from src.statistics import (
     teste_chi2, teste_t, teste_z_proporcoes, ranking_correlacao,

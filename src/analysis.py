@@ -236,16 +236,13 @@ def exportar_dataset_looker(sessions: pd.DataFrame, profile: pd.DataFrame) -> pd
     """Exporta tabela consolidada sessions + profile pronta para Looker Studio (flat, sem joins)."""
     df = sessions.merge(profile, on="user_id", how="left")
 
-    df["win"] = (df["result"] == "win").fillna(0).astype(int)
-
     colunas = [
         "session_id", "user_id", "word", "word_date", "attempts", "result",
         "time_to_complete_sec", "device", "session_hour", "streak_day",
         "played_next_day", "active_d30", "newsletter_open_before_game",
         "age_range", "state", "city", "salary_range", "sector", "company_size",
         "orders_food_delivery", "food_delivery_platform",
-        "plays_other_word_games", "typical_play_time", "newsletter_subscriber",
-        "win"
+        "plays_other_word_games", "typical_play_time", "newsletter_subscriber"
     ]
 
     result = df[colunas].copy()
@@ -255,3 +252,71 @@ def exportar_dataset_looker(sessions: pd.DataFrame, profile: pd.DataFrame) -> pd
     result["newsletter_open_before_game"] = result["newsletter_open_before_game"].fillna(0).astype(int)
 
     return result
+
+
+def exportar_sumario_looker(sessions: pd.DataFrame) -> pd.DataFrame:
+    """Tabela pronta para Looker com taxas de retencao pre-calculadas por dimensao."""
+    rows = []
+
+    for result in ["win", "lose"]:
+        subset = sessions[sessions["result"] == result]
+        rows.append({
+            "dimensao": "resultado",
+            "categoria": result,
+            "taxa_d1": round(subset["played_next_day"].mean() * 100, 1),
+            "taxa_d30": round(subset["active_d30"].mean() * 100, 1),
+            "sessoes": len(subset)
+        })
+
+    for streak in sorted(sessions["streak_day"].unique()):
+        subset = sessions[sessions["streak_day"] == streak]
+        if len(subset) >= 10:
+            rows.append({
+                "dimensao": "streak_day",
+                "categoria": str(streak),
+                "taxa_d1": round(subset["played_next_day"].mean() * 100, 1),
+                "taxa_d30": round(subset["active_d30"].mean() * 100, 1),
+                "sessoes": len(subset)
+            })
+
+    for opened in [1, 0]:
+        subset = sessions[sessions["newsletter_open_before_game"] == opened]
+        rows.append({
+            "dimensao": "newsletter",
+            "categoria": "Sim" if opened == 1 else "Nao",
+            "taxa_d1": round(subset["played_next_day"].mean() * 100, 1),
+            "taxa_d30": round(subset["active_d30"].mean() * 100, 1),
+            "sessoes": len(subset)
+        })
+
+    for word, group in sessions.groupby("word"):
+        if len(group) >= 30:
+            rows.append({
+                "dimensao": "palavra",
+                "categoria": word,
+                "taxa_d1": round(group["played_next_day"].mean() * 100, 1),
+                "taxa_d30": round(group["active_d30"].mean() * 100, 1),
+                "sessoes": len(group)
+            })
+
+    for hour_range in sessions["session_hour"].apply(
+        lambda h: "manha (6-9)" if 6 <= h <= 9
+        else "tarde (10-14)" if 10 <= h <= 14
+        else "fim de tarde (15-19)" if 15 <= h <= 19
+        else "noite (20-23)"
+    ).unique():
+        subset = sessions[sessions["session_hour"].apply(
+            lambda h: "manha (6-9)" if 6 <= h <= 9
+            else "tarde (10-14)" if 10 <= h <= 14
+            else "fim de tarde (15-19)" if 15 <= h <= 19
+            else "noite (20-23)"
+        ) == hour_range]
+        rows.append({
+            "dimensao": "horario",
+            "categoria": hour_range,
+            "taxa_d1": round(subset["played_next_day"].mean() * 100, 1),
+            "taxa_d30": round(subset["active_d30"].mean() * 100, 1),
+            "sessoes": len(subset)
+        })
+
+    return pd.DataFrame(rows)
