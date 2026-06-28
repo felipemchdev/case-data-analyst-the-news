@@ -230,3 +230,19 @@ def metrica_stickiness(sessions: pd.DataFrame) -> pd.DataFrame:
         "metrica": ["DAU medio", "WAU medio (soma)", "MAU medio (soma)", "Stickiness (DAU/MAU)"],
         "valor": [round(dau_medio), round(wau), round(mau), f"{stickiness:.1%}"],
     })
+
+
+def exportar_dataset_looker(sessions: pd.DataFrame, profile: pd.DataFrame) -> pd.DataFrame:
+    """Exporta tabela consolidada sessions + profile pronta para Looker Studio (flat, sem joins)."""
+    df = sessions.merge(profile, on="user_id", how="left")
+
+    colunas = [
+        "session_id", "user_id", "word", "word_date", "attempts", "result",
+        "time_to_complete_sec", "device", "session_hour", "streak_day",
+        "played_next_day", "active_d30", "newsletter_open_before_game",
+        "age_range", "state", "salary_range", "sector", "company_size",
+        "orders_food_delivery", "food_delivery_platform",
+        "plays_other_word_games", "typical_play_time", "newsletter_subscriber"
+    ]
+
+    return df[colunas].copy()
