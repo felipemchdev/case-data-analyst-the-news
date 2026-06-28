@@ -242,13 +242,15 @@ def exportar_dataset_looker(sessions: pd.DataFrame, profile: pd.DataFrame) -> pd
         "played_next_day", "active_d30", "newsletter_open_before_game",
         "age_range", "state", "city", "salary_range", "sector", "company_size",
         "orders_food_delivery", "food_delivery_platform",
-        "plays_other_word_games", "typical_play_time", "newsletter_subscriber"
+        "plays_other_word_games", "typical_play_time", "newsletter_subscriber",
+        "win"
     ]
 
     result = df[colunas].copy()
 
-    result["played_next_day"] = result["played_next_day"].astype(int)
-    result["active_d30"] = result["active_d30"].astype(int)
-    result["newsletter_open_before_game"] = result["newsletter_open_before_game"].astype(int)
+    result["played_next_day"] = result["played_next_day"].fillna(0).astype(int)
+    result["active_d30"] = result["active_d30"].fillna(0).astype(int)
+    result["newsletter_open_before_game"] = result["newsletter_open_before_game"].fillna(0).astype(int)
+    result["win"] = (result["result"] == "win").fillna(0).astype(int)
 
     return result
