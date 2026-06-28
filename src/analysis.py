@@ -236,6 +236,8 @@ def exportar_dataset_looker(sessions: pd.DataFrame, profile: pd.DataFrame) -> pd
     """Exporta tabela consolidada sessions + profile pronta para Looker Studio (flat, sem joins)."""
     df = sessions.merge(profile, on="user_id", how="left")
 
+    df["win"] = (df["result"] == "win").fillna(0).astype(int)
+
     colunas = [
         "session_id", "user_id", "word", "word_date", "attempts", "result",
         "time_to_complete_sec", "device", "session_hour", "streak_day",
@@ -251,6 +253,5 @@ def exportar_dataset_looker(sessions: pd.DataFrame, profile: pd.DataFrame) -> pd
     result["played_next_day"] = result["played_next_day"].fillna(0).astype(int)
     result["active_d30"] = result["active_d30"].fillna(0).astype(int)
     result["newsletter_open_before_game"] = result["newsletter_open_before_game"].fillna(0).astype(int)
-    result["win"] = (result["result"] == "win").fillna(0).astype(int)
 
     return result
