@@ -240,7 +240,7 @@ def exportar_dataset_looker(sessions: pd.DataFrame, profile: pd.DataFrame) -> pd
         "session_id", "user_id", "word", "word_date", "attempts", "result",
         "time_to_complete_sec", "device", "session_hour", "streak_day",
         "played_next_day", "active_d30", "newsletter_open_before_game",
-        "age_range", "state", "salary_range", "sector", "company_size",
+        "age_range", "state", "city", "salary_range", "sector", "company_size",
         "orders_food_delivery", "food_delivery_platform",
         "plays_other_word_games", "typical_play_time", "newsletter_subscriber"
     ]
